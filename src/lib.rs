@@ -13,4 +13,4 @@ mod git;
 pub use changelog::Changelog;
 pub use cli::Cli;
 pub use error::{Error, ErrorKind, Result};
-pub use git::git;
+pub use git::{all_commits, Commit};

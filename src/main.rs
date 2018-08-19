@@ -21,7 +21,7 @@ fn main() -> Result<(), ExitFailure> {
   args.log(env!("CARGO_PKG_NAME"))?;
   let path = args.path();
   changelog::Changelog::open(&path)?;
-  changelog::git(&path)?;
+  changelog::all_commits(&path)?;
   info!("program started {}", path);
   Ok(())
 }

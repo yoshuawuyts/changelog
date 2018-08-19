@@ -6,7 +6,7 @@ use std::path::Path;
 pub struct Changelog;
 
 impl Changelog {
-  /// Open a file to `CHANGELOG.md`, or create it if it doesn't exist already.
+  /// Open a file to `CHANGELOG.md`.
   pub fn open(path: &str) -> ::Result<Self> {
     let path = Path::new(path).join("CHANGELOG.md");
     let _file = OpenOptions::new()
@@ -14,5 +14,20 @@ impl Changelog {
       .open(path)
       .context(::ErrorKind::Fs)?;
     Ok(Changelog {})
+  }
+
+  /// Create a new changelog at `CHANGELOG.md`.
+  pub fn create(path: &str) -> ::Result<Self> {
+    let path = Path::new(path).join("CHANGELOG.md");
+    let _file = OpenOptions::new()
+      .write(true)
+      .open(path)
+      .context(::ErrorKind::Fs)?;
+    Ok(Changelog {})
+  }
+
+  /// Open a changelog, or create it if it doesn't exist yet.
+  pub fn open_or_create(path: &str) -> ::Result<Self> {
+    unimplemented!();
   }
 }
