@@ -5,10 +5,12 @@ extern crate clap_flags;
 extern crate failure;
 extern crate git2;
 
+mod changelog;
 mod cli;
 mod error;
 mod git;
 
+pub use changelog::Changelog;
 pub use cli::Cli;
 pub use error::{Error, ErrorKind, Result};
 pub use git::git;

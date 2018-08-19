@@ -1,6 +1,5 @@
 use failure::{Backtrace, Context, Fail};
 use std::fmt::{self, Display};
-use std::io;
 use std::result;
 
 /// A specialized [`Result`] type for this crate's operations.
@@ -28,9 +27,9 @@ pub enum ErrorKind {
   /// An error caused by Git failure.
   #[fail(display = "An error occurred using git.")]
   Git,
-  /// An error caused by an IO failure.
-  #[fail(display = "{}", _0)]
-  Io(#[cause] io::Error),
+  /// An error caused by a failed filesystem operation.
+  #[fail(display = "An error occured accessing the disk.")]
+  Fs,
   /// Any error not part of this list.
   #[fail(display = "Generic error.")]
   Other,

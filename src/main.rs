@@ -20,6 +20,8 @@ fn main() -> Result<(), ExitFailure> {
   let args = Cli::from_args();
   args.log(env!("CARGO_PKG_NAME"))?;
   let path = args.path();
+  changelog::Changelog::open(&path)?;
+  changelog::git(&path)?;
   info!("program started {}", path);
   Ok(())
 }
