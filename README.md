@@ -8,6 +8,22 @@ Changelog generator.
 - [Crates.io][2]
 - [Releases][9]
 
+## Why?
+Keeping track of what changed between versions can be tricky. So changelogs
+exist to document those changes for you. But writing changelogs can take a lot
+of time, which not everyone has. Which means a lot of projects choose not to
+keep a changelog.
+
+So this project exists as a best-effort to generate changelogs for you. It
+doesn't require [custom commit styles](https://conventionalcommits.org/) to
+work. Nor does it ask you to [manually track
+changes](https://keepachangelog.com/en/1.0.0/) in several places.
+
+Instead we automate as much as possible, and present a changelog that's both
+easy on the eyes, and easy to use. It's not intended to replace manual
+changelogs, but instead provide an option to keep a changelog for projects that
+otherwise wouldn't. We hope you find this useful!
+
 ## Usage
 ```txt
 changelog 0.0.2
