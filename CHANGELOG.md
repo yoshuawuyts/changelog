@@ -6,9 +6,9 @@
 
 ## 2018-08-22, Version 0.0.1
 ### Commits
-- [008623b552] (cargo-release) version 0.0.1
-- [6b8807d873] list git tags
-- [6cccf32de9] upgrade clap flags
-- [e3fd85eb9a] contributing
-- [b80ff81ab9] .
-- [df7c84049a] .
+- [[008623b552](https://github.com/yoshuawuyts/changelog/commits/008623b55290ed6ffbf668322049cc8ed085232f)] (cargo-release) version 0.0.1 (Yoshua Wuyts)
+- [[6b8807d873](https://github.com/yoshuawuyts/changelog/commits/6b8807d873794b9f38fc68894e4b1238814019bd)] list git tags (Yoshua Wuyts)
+- [[6cccf32de9](https://github.com/yoshuawuyts/changelog/commits/6cccf32de92aef62b005a44d50fe4e8fbad002d8)] upgrade clap flags (Yoshua Wuyts)
+- [[e3fd85eb9a](https://github.com/yoshuawuyts/changelog/commits/e3fd85eb9adff74f24a8328bff85dee0b9a2d91b)] contributing (Yoshua Wuyts)
+- [[b80ff81ab9](https://github.com/yoshuawuyts/changelog/commits/b80ff81ab97d6b757b304c0a2425bb3225a4aef4)] . (Yoshua Wuyts)
+- [[df7c84049a](https://github.com/yoshuawuyts/changelog/commits/df7c84049afdfc24be543da7fdcca69e987a2acb)] . (Yoshua Wuyts)
