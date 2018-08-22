@@ -23,9 +23,9 @@ pub use git::{all_commits, Commit, Tag};
 
 use failure::ResultExt;
 use mktemp::Temp;
-use std::fs;
+use std::fs::{self, File, OpenOptions};
+use std::io::{self, Write};
 use std::path::PathBuf;
-use std::{fs::File, io, io::Write};
 
 #[derive(Deserialize)]
 struct Config {
@@ -49,14 +49,30 @@ pub fn read_repo(dir: &str) -> ::Result<String> {
 
 /// Prepend a changelog to a file.
 pub fn prepend_file(file_path: &str, data: &str) -> ::Result<()> {
+  println!("file path {:?}", file_path);
   let file_path = PathBuf::from(file_path);
-  let mut tmp_path = Temp::new_file().context(::ErrorKind::Other)?;
-  tmp_path.release();
+
+  // Touch new file if it doesn't exist already
+  let file = OpenOptions::new()
+    .create(true)
+    .append(true)
+    .open(&file_path)
+    .context(::ErrorKind::Other)?;
+  file.sync_all().context(::ErrorKind::Other)?;
+
+  // Setup temp file & path
+  let tmp_path = Temp::new_file().context(::ErrorKind::Other)?;
   let mut tmp = File::create(&tmp_path).context(::ErrorKind::Other)?;
   let mut src = File::open(&file_path).context(::ErrorKind::Other)?;
+
+  // Prepend data
   tmp.write_all(data.as_bytes()).context(::ErrorKind::Other)?;
+  tmp.write(b"\n\n").context(::ErrorKind::Other)?;
   io::copy(&mut src, &mut tmp).context(::ErrorKind::Other)?;
+
+  // Cleanup
   fs::remove_file(&file_path).context(::ErrorKind::Other)?;
-  fs::rename(&tmp_path, &file_path).context(::ErrorKind::Other)?;
+  fs::copy(&tmp_path, &file_path).context(::ErrorKind::Other)?;
+
   Ok(())
 }
