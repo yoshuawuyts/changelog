@@ -1,3 +1,10 @@
+## 2018-08-22, Version 0.1.2
+### Commits
+- [[`f4cd9ad8b1`](https://github.com/yoshuawuyts/changelog/commits/f4cd9ad8b158480d993eefeb2b98b292048ac863)] (cargo-release) version 0.1.2 (Yoshua Wuyts)
+- [[`98ec74e262`](https://github.com/yoshuawuyts/changelog/commits/98ec74e2627b703cd1242dcc918e4ebad75ae0ea)] add diff section (Yoshua Wuyts)
+- [[`2b865e9a42`](https://github.com/yoshuawuyts/changelog/commits/2b865e9a42671d0b4a03649d5c43f4a2b49ee6d0)] add "why" section (Yoshua Wuyts)
+- [[`7c4e91bf25`](https://github.com/yoshuawuyts/changelog/commits/7c4e91bf259922ab8cc174213cd0a33a0159d334)] update changelog (Yoshua Wuyts)
+
 ## 2018-08-22, Version 0.1.1
 ### Commits
 - [[`7ebd1bf2bb`](https://github.com/yoshuawuyts/changelog/commits/7ebd1bf2bb5665d49be730438fec8c568d5d1406)] (cargo-release) version 0.1.1 (Yoshua Wuyts)
