@@ -48,6 +48,13 @@ impl Commit {
   pub fn author(&self) -> &Option<String> {
     &self.author
   }
+
+  /// Access the commit datetime.
+  #[inline]
+  #[must_use]
+  pub fn datetime(&self) -> &DateTime<Utc> {
+    &self.datetime
+  }
 }
 
 /// Get all commits for a path.

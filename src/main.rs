@@ -19,6 +19,7 @@ fn main() -> Result<(), ExitFailure> {
   args.log(env!("CARGO_PKG_NAME"))?;
   let path = args.path();
   let (tag, commits) = changelog::all_commits(&path)?;
-  changelog::format(&tag, &commits);
+  let msg = changelog::format(&tag, &commits);
+  println!("{}", msg);
   Ok(())
 }
