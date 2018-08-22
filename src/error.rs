@@ -27,6 +27,9 @@ pub enum ErrorKind {
   /// An error caused by Git failure.
   #[fail(display = "An error occurred using git.")]
   Git,
+  /// An error caused by there not being any tags to work from.
+  #[fail(display = "No git tags found.")]
+  NoTags,
   /// An error caused by a failed filesystem operation.
   #[fail(display = "An error occured accessing the disk.")]
   Fs,

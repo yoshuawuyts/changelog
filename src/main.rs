@@ -5,11 +5,9 @@
 
 #[macro_use]
 extern crate human_panic;
-extern crate structopt;
-#[macro_use]
-extern crate log;
 extern crate changelog;
 extern crate exitfailure;
+extern crate structopt;
 
 use changelog::Cli;
 use exitfailure::ExitFailure;
@@ -20,8 +18,7 @@ fn main() -> Result<(), ExitFailure> {
   let args = Cli::from_args();
   args.log(env!("CARGO_PKG_NAME"))?;
   let path = args.path();
-  changelog::Changelog::open(&path)?;
-  changelog::all_commits(&path)?;
-  info!("program started {}", path);
+  let (tag, commits) = changelog::all_commits(&path)?;
+  changelog::format(&tag, &commits);
   Ok(())
 }
