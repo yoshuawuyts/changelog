@@ -21,7 +21,6 @@ pub fn format(tag: &Tag, commits: &[Commit]) -> String {
     changelog.push_str(&comm);
   }
 
-  changelog.push_str("\n");
   changelog
 }
 

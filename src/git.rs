@@ -64,11 +64,11 @@ pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
 
   let tags = repo.tag_names(None).context(::ErrorKind::Git)?;
   let len = tags.len();
-  let mut tags = tags.iter().filter_map(|tag| tag);
+
   let (start, end) = match len {
     0 => return Err(::ErrorKind::NoTags.into()),
-    1 => (tags.last(), None),
-    _ => (tags.nth(len - 1), tags.nth(len - 2)),
+    1 => (tags.get(len - 1), None),
+    _ => (tags.get(len - 1), tags.get(len - 2)),
   };
 
   // Value has to be `Some()` here.
@@ -97,7 +97,8 @@ pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
   let mut commits = vec![];
   for commit in revwalk {
     if let Some(end) = &end {
-      if end.id() == commit.id() {
+      let end = end.as_tag().expect("Object should have been a tag");
+      if end.target_id() == commit.id() {
         break;
       }
     }
