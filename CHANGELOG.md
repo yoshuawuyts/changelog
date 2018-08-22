@@ -5,6 +5,18 @@
 - [[`2b865e9a42`](https://github.com/yoshuawuyts/changelog/commits/2b865e9a42671d0b4a03649d5c43f4a2b49ee6d0)] add "why" section (Yoshua Wuyts)
 - [[`7c4e91bf25`](https://github.com/yoshuawuyts/changelog/commits/7c4e91bf259922ab8cc174213cd0a33a0159d334)] update changelog (Yoshua Wuyts)
 
+### Stats
+```diff
+ CHANGELOG.md     |  6 +++++-
+ Cargo.toml       |  2 +-
+ README.md        | 16 ++++++++++++++-
+ src/changelog.rs |  6 +++++-
+ src/git.rs       | 67 +++++++++++++++++++++++++++++++++++++++++++++------------
+ src/lib.rs       |  4 +--
+ src/main.rs      |  5 +++-
+ 7 files changed, 89 insertions(+), 17 deletions(-)
+```
+
 ## 2018-08-22, Version 0.1.1
 ### Commits
 - [[`7ebd1bf2bb`](https://github.com/yoshuawuyts/changelog/commits/7ebd1bf2bb5665d49be730438fec8c568d5d1406)] (cargo-release) version 0.1.1 (Yoshua Wuyts)
