@@ -18,7 +18,7 @@ pub fn format(tag: &Tag, commits: &[Commit], repo_url: &str) -> String {
     let long_hash = commit.hash();
     let short_hash = truncate(long_hash, 10);
     let url = format!("{}/commits/{}", repo_url, long_hash);
-    let hash = format!("[{}]({})", short_hash, url);
+    let hash = format!("[`{}`]({})", short_hash, url);
 
     let mut msg = commit.message().to_string();
     msg.pop(); // remove trailing newline

@@ -1,3 +1,12 @@
+## 2018-08-22, Version 0.0.3
+### Commits
+- [[`ea407c3bb1`](https://github.com/yoshuawuyts/changelog/commits/ea407c3bb1e6dd13d738de0534befb6674dcd97f)] (cargo-release) version 0.0.3 (Yoshua Wuyts)
+- [[`09da129965`](https://github.com/yoshuawuyts/changelog/commits/09da12996587af7c0b99baa56ecf3f607e3f7c8f)] update readme (Yoshua Wuyts)
+- [[`7a4e66400a`](https://github.com/yoshuawuyts/changelog/commits/7a4e66400abd9cff7789d85163d83f843e619ab3)] write to changelog (Yoshua Wuyts)
+- [[`4b82410d22`](https://github.com/yoshuawuyts/changelog/commits/4b82410d223b3f6e3a02cab67f581484ebe2c8f5)] fix --out flag (Yoshua Wuyts)
+- [[`d8e80f0b9b`](https://github.com/yoshuawuyts/changelog/commits/d8e80f0b9b3f31ac5def886230067df15426de69)] finish cli (Yoshua Wuyts)
+- [[`cd44f27e58`](https://github.com/yoshuawuyts/changelog/commits/cd44f27e58462905c56b639fe1bec6c311094309)] fix filter function (Yoshua Wuyts)
+
 ## 2018-08-22, Version 0.0.2
 ### Commits
 - [[`e2f7e50a2e`](https://github.com/yoshuawuyts/changelog/commits/e2f7e50a2e0471ad2f63053e032f2fddf3b89b9b)] (cargo-release) version 0.0.2 (Yoshua Wuyts)
