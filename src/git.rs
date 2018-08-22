@@ -28,10 +28,17 @@ impl Commit {
 #[must_use]
 pub fn all_commits(path: &str) -> ::Result<Vec<Commit>> {
   let repo = Repository::open(path).context(::ErrorKind::Git)?;
-  let mut revwalk = repo.revwalk().context(::ErrorKind::Git)?;
+
+  let tags = repo.tag_names(None).context(::ErrorKind::Git)?;
+  println!("tags");
+  for tag in tags.iter() {
+    println!("tag {:?}", tag);
+  }
+
   let head = repo.head().context(::ErrorKind::Git)?;
   let oid = head.target().ok_or(::ErrorKind::Git)?;
 
+  let mut revwalk = repo.revwalk().context(::ErrorKind::Git)?;
   revwalk.push(oid).context(::ErrorKind::Git)?;
   let revwalk = revwalk.filter_map(|id| repo.find_commit(id.ok()?).ok());
 
