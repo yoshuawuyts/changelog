@@ -1,3 +1,7 @@
+## 2018-08-22, Version 0.1.0
+### Commits
+- [[`caabe9f1d8`](https://github.com/yoshuawuyts/changelog/commits/caabe9f1d8a3b2d65638824b374b5324e6eab367)] (cargo-release) version 0.1.0 (Yoshua Wuyts)
+
 ## 2018-08-22, Version 0.0.3
 ### Commits
 - [[`ea407c3bb1`](https://github.com/yoshuawuyts/changelog/commits/ea407c3bb1e6dd13d738de0534befb6674dcd97f)] (cargo-release) version 0.0.3 (Yoshua Wuyts)
