@@ -1,3 +1,9 @@
+## 2018-08-22, Version 0.1.1
+### Commits
+- [[`7ebd1bf2bb`](https://github.com/yoshuawuyts/changelog/commits/7ebd1bf2bb5665d49be730438fec8c568d5d1406)] (cargo-release) version 0.1.1 (Yoshua Wuyts)
+- [[`ed7826b8de`](https://github.com/yoshuawuyts/changelog/commits/ed7826b8de9f479eeedc2ae393318691c0542bc4)] remove unneeded println (Yoshua Wuyts)
+- [[`4c65a480a7`](https://github.com/yoshuawuyts/changelog/commits/4c65a480a7ea4a0ea1508b70aa91641541644468)] update changelog (Yoshua Wuyts)
+
 ## 2018-08-22, Version 0.1.0
 ### Commits
 - [[`caabe9f1d8`](https://github.com/yoshuawuyts/changelog/commits/caabe9f1d8a3b2d65638824b374b5324e6eab367)] (cargo-release) version 0.1.0 (Yoshua Wuyts)
