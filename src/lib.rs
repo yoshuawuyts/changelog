@@ -49,7 +49,6 @@ pub fn read_repo(dir: &str) -> ::Result<String> {
 
 /// Prepend a changelog to a file.
 pub fn prepend_file(file_path: &str, data: &str) -> ::Result<()> {
-  println!("file path {:?}", file_path);
   let file_path = PathBuf::from(file_path);
 
   // Touch new file if it doesn't exist already
