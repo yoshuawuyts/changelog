@@ -11,7 +11,6 @@ Changelog generator.
 ## Usage
 ```txt
 changelog 0.0.2
-Yoshua Wuyts <yoshuawuyts@gmail.com>
 Command line parser.
 
 USAGE:
