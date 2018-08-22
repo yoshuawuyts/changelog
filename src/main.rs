@@ -21,7 +21,10 @@ fn main() -> Result<(), ExitFailure> {
 
   let repo_url = changelog::read_repo(&path)?;
   let (tag, commits) = changelog::all_commits(&path)?;
-  let msg = changelog::format(&tag, &commits, &repo_url);
+  let mut msg = changelog::format(&tag, &commits, &repo_url);
+
+  let diff = changelog::full_diff(&path)?;
+  msg.push_str(&changelog::stats(&diff)?);
 
   match args.file() {
     Some(outfile) => changelog::prepend_file(outfile, &msg)?,

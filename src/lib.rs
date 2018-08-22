@@ -16,10 +16,10 @@ mod cli;
 mod error;
 mod git;
 
-pub use changelog::format;
+pub use changelog::{format, stats};
 pub use cli::Cli;
 pub use error::{Error, ErrorKind, Result};
-pub use git::{all_commits, Commit, Tag};
+pub use git::{all_commits, full_diff, Commit, Tag};
 
 use failure::ResultExt;
 use mktemp::Temp;

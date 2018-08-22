@@ -1,6 +1,6 @@
 use chrono::prelude::*;
 use failure::ResultExt;
-use git2::Repository;
+use git2::{self, DiffStatsFormat, Repository};
 use std::str;
 
 /// A git tag.
@@ -57,11 +57,29 @@ impl Commit {
   }
 }
 
-/// Get all commits for a path.
-#[must_use]
-pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
-  let repo = Repository::open(path).context(::ErrorKind::Git)?;
+/// Diff two git objects.
+pub fn diff(
+  repo: &Repository,
+  o1: git2::Object,
+  o2: git2::Object,
+) -> ::Result<String> {
+  let t1 = o1.peel_to_tree().context(::ErrorKind::Git)?;
+  let t2 = o2.peel_to_tree().context(::ErrorKind::Git)?;
+  let diff = repo
+    .diff_tree_to_tree(Some(&t2), Some(&t1), None)
+    .context(::ErrorKind::Git)?;
+  let stats = diff.stats().context(::ErrorKind::Git)?;
+  let format = DiffStatsFormat::FULL;
+  let buf = stats.to_buf(format, 80).context(::ErrorKind::Git)?;
+  let buf = str::from_utf8(&*buf).context(::ErrorKind::Other)?;
+  Ok(buf.to_owned())
+}
 
+/// Get the latest two commits for the range.
+#[must_use]
+pub fn get_commit_range(
+  repo: &Repository,
+) -> ::Result<(git2::Object, git2::Object)> {
   let tags = repo.tag_names(None).context(::ErrorKind::Git)?;
   let len = tags.len();
 
@@ -75,19 +93,44 @@ pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
   let start = start.expect("Tag should have a value.");
   let (start, end) = match (start, end) {
     (start, None) => {
-      (repo.revparse_single(start).context(::ErrorKind::Git)?, None)
+      let start = repo.revparse_single(start).context(::ErrorKind::Git)?;
+      let mut revwalk = repo.revwalk().context(::ErrorKind::Git)?;
+      revwalk.push(start.id()).context(::ErrorKind::Git)?;
+      revwalk.set_sorting(git2::Sort::REVERSE);
+      let oid = revwalk
+        .nth(0)
+        .ok_or(::ErrorKind::Git)?
+        .context(::ErrorKind::Git)?;
+      let last = repo.find_object(oid, None).unwrap();
+      (start, last)
     }
     (start, Some(end)) => (
       repo.revparse_single(start).context(::ErrorKind::Git)?,
-      Some(repo.revparse_single(end).context(::ErrorKind::Git)?),
+      repo.revparse_single(end).context(::ErrorKind::Git)?,
     ),
   };
 
+  Ok((start, end))
+}
+
+/// Get the full diff in a single convenience function.
+pub fn full_diff(path: &str) -> ::Result<String> {
+  let repo = Repository::open(path).context(::ErrorKind::Git)?;
+  let (start, end) = get_commit_range(&repo)?;
+  Ok(diff(&repo, start, end)?)
+}
+
+/// Get all commits for a path.
+#[must_use]
+pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
+  let repo = Repository::open(path).context(::ErrorKind::Git)?;
+  let (start, end) = get_commit_range(&repo)?;
+
   let tag = match start.as_tag() {
+    None => unreachable!(),
     Some(tag) => Tag {
       name: tag.name().map(|tag| tag.to_owned()),
     },
-    None => unreachable!(),
   };
 
   let mut revwalk = repo.revwalk().context(::ErrorKind::Git)?;
@@ -96,11 +139,9 @@ pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
 
   let mut commits = vec![];
   for commit in revwalk {
-    if let Some(end) = &end {
-      let end = end.as_tag().expect("Object should have been a tag");
-      if end.target_id() == commit.id() {
-        break;
-      }
+    let end = end.as_tag().expect("Object should have been a tag");
+    if end.target_id() == commit.id() {
+      break;
     }
     let message = commit.message().ok_or(::ErrorKind::Git)?.to_string();
     let hash = format!("{}", commit.id());

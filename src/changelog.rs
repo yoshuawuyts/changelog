@@ -1,4 +1,5 @@
 use super::{Commit, Tag};
+use std::str;
 
 /// Format a list of commits to a changelog entry
 #[must_use]
@@ -41,4 +42,9 @@ fn truncate(s: &str, max_chars: usize) -> &str {
     None => s,
     Some((idx, _)) => &s[..idx],
   }
+}
+
+/// Get the stats section.
+pub fn stats(diff: &str) -> ::Result<String> {
+  Ok(format!("\n\n### Stats\n```diff\n{}```\n", diff))
 }
