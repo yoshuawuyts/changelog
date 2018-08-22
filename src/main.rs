@@ -18,8 +18,15 @@ fn main() -> Result<(), ExitFailure> {
   let args = Cli::from_args();
   args.log(env!("CARGO_PKG_NAME"))?;
   let path = args.path();
+
+  let repo_url = changelog::read_repo(&path)?;
   let (tag, commits) = changelog::all_commits(&path)?;
-  let msg = changelog::format(&tag, &commits);
-  println!("{}", msg);
+  let msg = changelog::format(&tag, &commits, &repo_url);
+
+  match args.file() {
+    Some(outfile) => changelog::prepend_file(outfile, &msg)?,
+    None => print!("{}", msg),
+  }
+
   Ok(())
 }

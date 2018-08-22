@@ -10,8 +10,12 @@ pub struct Cli {
   logger: clap_flags::Log,
   #[structopt(flatten)]
   verbosity: clap_flags::Verbosity,
+  /// Project directory
   #[structopt(default_value = ".")]
   path: String,
+  /// Write output to file
+  #[structopt(short = "o", long = "out")]
+  file: Option<String>,
 }
 
 impl Cli {
@@ -29,5 +33,11 @@ impl Cli {
   #[inline]
   pub fn path(&self) -> &str {
     &self.path
+  }
+
+  /// Access the outfile.
+  #[inline]
+  pub fn file(&self) -> &Option<String> {
+    &self.file
   }
 }

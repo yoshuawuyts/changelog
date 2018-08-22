@@ -18,6 +18,10 @@ clap_flags = "0.3.0"
 git2 = "0.7.5"
 comrak = "0.2.14"
 chrono = "0.4.5"
+serde_derive = "1.0.72"
+toml = "0.4.6"
+serde = "1.0.72"
+mktemp = "0.3.1"
 
 [dev-dependencies]
 
@@ -27,3 +31,7 @@ clap_flags = "0.2.0"
 failure = "0.1.2"
 git2 = "0.7.5"
 chrono = "0.4.5"
+serde_derive = "1.0.72"
+toml = "0.4.6"
+serde = "1.0.72"
+mktemp = "0.3.1"

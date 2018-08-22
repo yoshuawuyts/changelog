@@ -2,7 +2,7 @@ use super::{Commit, Tag};
 
 /// Format a list of commits to a changelog entry
 #[must_use]
-pub fn format(tag: &Tag, commits: &[Commit]) -> String {
+pub fn format(tag: &Tag, commits: &[Commit], repo_url: &str) -> String {
   let date = commits[0].datetime().naive_utc().date();
   let version = match tag.name() {
     Some(name) => name,
@@ -13,11 +13,22 @@ pub fn format(tag: &Tag, commits: &[Commit]) -> String {
   let mut changelog = format!("## {}, Version {}\n", date, version);
 
   // Commits
-  changelog.push_str("### Commits\n");
+  changelog.push_str("### Commits");
   for commit in commits {
-    let hash = truncate(commit.hash(), 10);
-    let msg = commit.message();
-    let comm = format!("- [{}] {}", hash, msg);
+    let long_hash = commit.hash();
+    let short_hash = truncate(long_hash, 10);
+    let url = format!("{}/commits/{}", repo_url, long_hash);
+    let hash = format!("[{}]({})", short_hash, url);
+
+    let mut msg = commit.message().to_string();
+    msg.pop(); // remove trailing newline
+
+    let author = match commit.author() {
+      Some(author) => format!("({})", author),
+      None => String::from(""),
+    };
+
+    let comm = format!("\n- [{}] {} {}", hash, msg, author);
     changelog.push_str(&comm);
   }
 
