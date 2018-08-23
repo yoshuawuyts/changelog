@@ -26,7 +26,7 @@ otherwise wouldn't. We hope you find this useful!
 
 ## Usage
 ```txt
-changelog 0.0.2
+changelog 0.1.2
 Command line parser.
 
 USAGE:
