@@ -48,7 +48,7 @@ ARGS:
 
 ## Installation
 ```sh
-$ cargo add changelog
+$ cargo install changelog
 ```
 
 ## License
