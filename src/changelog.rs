@@ -1,7 +1,7 @@
 use super::{Commit, Tag};
 use std::str;
 
-/// Format a list of commits to a changelog entry
+/// Format a list of commits to a changelog entry.
 #[must_use]
 pub fn format(tag: &Tag, commits: &[Commit], repo_url: &str) -> String {
   let date = commits[0].datetime().naive_utc().date();
