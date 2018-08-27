@@ -1,14 +1,8 @@
 ## 2018-08-27, Version 0.2.0
 ### Commits
-- [[`a3d31b250c`](https://github.com/yoshuawuyts/changelog/commits/a3d31b250c3a1b28836e84e18c2b8da7c9d24a6a)] (cargo-release) version 0.2.0
-
-Signed-off-by: Yoshua Wuyts <yoshuawuyts@gmail.com> (Yoshua Wuyts)
-- [[`49f79c4d88`](https://github.com/yoshuawuyts/changelog/commits/49f79c4d8806f09c052d903b4eff6d17f4921cae)] split by newline (#6)
-
-Signed-off-by: Yoshua Wuyts <yoshuawuyts@gmail.com (Yoshua Wuyts)
-- [[`4f0aed382e`](https://github.com/yoshuawuyts/changelog/commits/4f0aed382e7c82ee339086ba571f1ed2df7cce27)] Fix installation with cargo typo. (#5)
-
-Signed-off-by: Martijn Gribnau <garm@ilumeo.com (Martijn Gribnau)
+- [[`a3d31b250c`](https://github.com/yoshuawuyts/changelog/commits/a3d31b250c3a1b28836e84e18c2b8da7c9d24a6a)] (cargo-release) version 0.2.0 (Yoshua Wuyts)
+- [[`49f79c4d88`](https://github.com/yoshuawuyts/changelog/commits/49f79c4d8806f09c052d903b4eff6d17f4921cae)] split by newline (#6) (Yoshua Wuyts)
+- [[`4f0aed382e`](https://github.com/yoshuawuyts/changelog/commits/4f0aed382e7c82ee339086ba571f1ed2df7cce27)] Fix installation with cargo typo. (#5) (Martijn Gribnau)
 - [[`eda758d338`](https://github.com/yoshuawuyts/changelog/commits/eda758d3388bba024c3c0568c1d00bbb31b225ce)] update changelog (Yoshua Wuyts)
 
 ### Stats
@@ -20,12 +14,10 @@ Signed-off-by: Martijn Gribnau <garm@ilumeo.com (Martijn Gribnau)
  4 files changed, 21 insertions(+), 4 deletions(-)
 ```
 
-
 ## 2018-08-23, Version 0.1.3
 ### Commits
 - [[`f2a2a43f89`](https://github.com/yoshuawuyts/changelog/commits/f2a2a43f89fec3fc5580773cd22811a2ed04725e)] (cargo-release) version 0.1.3 (Yoshua Wuyts)
-- [[`ac4ad8002c`](https://github.com/yoshuawuyts/changelog/commits/ac4ad8002c61641028c2168543c769e2994f7b26)] bump version number in README (#2)
- (Yoshua Wuyts)
+- [[`ac4ad8002c`](https://github.com/yoshuawuyts/changelog/commits/ac4ad8002c61641028c2168543c769e2994f7b26)] bump version number in README (#2) (Yoshua Wuyts)
 - [[`36cc40e1bf`](https://github.com/yoshuawuyts/changelog/commits/36cc40e1bf7adc81a8184bb4ad6eea447f1af1f4)] changelog update! (Yoshua Wuyts)
 - [[`41d10af362`](https://github.com/yoshuawuyts/changelog/commits/41d10af362bf01da1c934d79adedbeb08a63ccc4)] update changelog (Yoshua Wuyts)
 
