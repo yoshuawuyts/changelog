@@ -1,3 +1,19 @@
+## 2018-08-30, Version 0.3.0
+### Commits
+- [[`69f9951b03`](https://github.com/yoshuawuyts/changelog/commits/69f9951b030f2824ddc804bd170525d322dca7cb)] (cargo-release) version 0.3.0 (Yoshua Wuyts)
+- [[`b27df48890`](https://github.com/yoshuawuyts/changelog/commits/b27df48890715c4e1a1f0dcc5e2eeca68fcd555e)] fix commit link (#9) (Yoshua Wuyts)
+- [[`2972436982`](https://github.com/yoshuawuyts/changelog/commits/29724369821a10f3c160046840db946b1cfcde11)] fix changelog (Yoshua Wuyts)
+- [[`fd31a61a18`](https://github.com/yoshuawuyts/changelog/commits/fd31a61a18129a0ece99aa007bbd07dc18894c5a)] update changelog (Yoshua Wuyts)
+
+### Stats
+```diff
+ CHANGELOG.md     | 19 +++++++++++++++++--
+ Cargo.toml       |  2 +-
+ src/changelog.rs |  2 +-
+ 3 files changed, 19 insertions(+), 4 deletions(-)
+```
+
+
 ## 2018-08-27, Version 0.2.0
 ### Commits
 - [[`a3d31b250c`](https://github.com/yoshuawuyts/changelog/commits/a3d31b250c3a1b28836e84e18c2b8da7c9d24a6a)] (cargo-release) version 0.2.0 (Yoshua Wuyts)
