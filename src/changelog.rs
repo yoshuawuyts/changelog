@@ -18,7 +18,7 @@ pub fn format(tag: &Tag, commits: &[Commit], repo_url: &str) -> String {
   for commit in commits {
     let long_hash = commit.hash();
     let short_hash = truncate(long_hash, 10);
-    let url = format!("{}/commits/{}", repo_url, long_hash);
+    let url = format!("{}/commit/{}", repo_url, long_hash);
     let hash = format!("[`{}`]({})", short_hash, url);
 
     let msg: Vec<&str> = commit.message().split("\n").collect();
