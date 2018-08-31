@@ -38,13 +38,34 @@ struct Package {
 }
 
 /// Get the repository name from `Cargo.toml`.
+/// Fallbacks to directory name if `Cargo.toml` does not exists.
 pub fn read_repo(dir: &str) -> ::Result<String> {
   let mut dir = PathBuf::from(dir);
   dir.push("Cargo.toml");
-  let cargo_toml = fs::read_to_string(dir).context(::ErrorKind::Other)?;
-  let config: Config =
-    toml::from_str(&cargo_toml).context(::ErrorKind::Other)?;
+
+  let config = if dir.exists() {
+    let cargo_toml = fs::read_to_string(dir).context(::ErrorKind::Other)?;
+    toml::from_str(&cargo_toml).context(::ErrorKind::Other)?
+  } else {
+    dir.pop();
+    Config {
+      package: Package {
+        repository: read_path_name(&dir).context(::ErrorKind::Other)?,
+      },
+    }
+  };
   Ok(config.package.repository)
+}
+
+/// Read the path name from a PathBuf
+pub fn read_path_name(dir: &PathBuf) -> ::Result<String> {
+  Ok(String::from(
+    dir
+      .file_name()
+      .ok_or_else(|| ::ErrorKind::Other)?
+      .to_str()
+      .ok_or_else(|| ::ErrorKind::Other)?,
+  ))
 }
 
 /// Prepend a changelog to a file.
