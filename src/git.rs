@@ -72,9 +72,15 @@ pub fn diff(
   o2: git2::Commit,
 ) -> ::Result<String> {
   let t1 = o1.tree().context(::ErrorKind::Git)?;
-  let t2 = o2.tree().context(::ErrorKind::Git)?;
+  let tree2 = o2.tree().context(::ErrorKind::Git)?;
+  // If o2 is the first object then we want to include it in the diff
+  // so we diff o1 with None
+  let t2 = match o2.parent(1) {
+    Err(_err) => None,
+    Ok(_parent) => Some(&tree2),
+  };
   let diff = repo
-    .diff_tree_to_tree(Some(&t2), Some(&t1), None)
+    .diff_tree_to_tree(t2, Some(&t1), None)
     .context(::ErrorKind::Git)?;
   let stats = diff.stats().context(::ErrorKind::Git)?;
   let format = DiffStatsFormat::FULL;
@@ -150,13 +156,18 @@ pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
   let start = commit_range.start;
   let end = commit_range.end;
 
+  let end_is_first_commit = match end.parent(1) {
+    Err(_err) => true,
+    _ => false,
+  };
+
   let mut revwalk = repo.revwalk().context(::ErrorKind::Git)?;
   revwalk.push(start.id()).context(::ErrorKind::Git)?;
   let revwalk = revwalk.filter_map(|id| repo.find_commit(id.ok()?).ok());
 
   let mut commits = vec![];
   for commit in revwalk {
-    if end.id() == commit.id() {
+    if end.id() == commit.id() && !end_is_first_commit {
       break;
     }
     let message = commit.message().ok_or(::ErrorKind::Git)?.to_string();
