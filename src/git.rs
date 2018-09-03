@@ -75,7 +75,7 @@ pub fn diff(
   let tree2 = o2.tree().context(::ErrorKind::Git)?;
   // If o2 is the first object then we want to include it in the diff
   // so we diff o1 with None
-  let t2 = match o2.parent(1) {
+  let t2 = match o2.parent(0) {
     Err(_err) => None,
     Ok(_parent) => Some(&tree2),
   };
@@ -156,7 +156,7 @@ pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
   let start = commit_range.start;
   let end = commit_range.end;
 
-  let end_is_first_commit = match end.parent(1) {
+  let end_is_first_commit = match end.parent(0) {
     Err(_err) => true,
     _ => false,
   };
