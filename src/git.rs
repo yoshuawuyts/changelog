@@ -127,7 +127,6 @@ pub fn get_commit_range<'r>(repo: &'r Repository) -> ::Result<CommitRange<'r>> {
       name: Some(start_str.to_owned()),
     },
   };
-  println!("{:?}", cr);
 
   return Ok(cr);
 }
