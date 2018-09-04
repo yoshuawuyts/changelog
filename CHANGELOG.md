@@ -1,3 +1,18 @@
+## 2018-09-04, Version 0.3.1
+### Commits
+- [[`d604fec20e`](https://github.com/yoshuawuyts/changelog/commit/d604fec20ead83e3ccaca784f630ba2063d1b6a3)] (cargo-release) version 0.3.1 (Yoshua Wuyts)
+- [[`83abcb0dc8`](https://github.com/yoshuawuyts/changelog/commit/83abcb0dc848e656926117e4a98fbcfbe547f9b4)] Support Lightweight Tags and repos with a single tag (#13) (Dan Reeves)
+- [[`c469fc0b75`](https://github.com/yoshuawuyts/changelog/commit/c469fc0b75d76c31735c6763f5a6a57ea0ec1772)] update changelog (Yoshua Wuyts)
+
+### Stats
+```diff
+ CHANGELOG.md | 16 +++++++++++++++-
+ Cargo.toml   |  2 +-
+ src/git.rs   | 67 ++++++++++++++++++++++++++++++++++++++++++-------------------
+ 3 files changed, 64 insertions(+), 21 deletions(-)
+```
+
+
 ## 2018-08-30, Version 0.3.0
 ### Commits
 - [[`69f9951b03`](https://github.com/yoshuawuyts/changelog/commits/69f9951b030f2824ddc804bd170525d322dca7cb)] (cargo-release) version 0.3.0 (Yoshua Wuyts)
