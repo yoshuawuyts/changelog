@@ -1,6 +1,6 @@
 [package]
 name = "changelog"
-version = "0.3.0"
+version = "0.3.1"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/yoshuawuyts/changelog"
 documentation = "https://docs.rs/changelog"
