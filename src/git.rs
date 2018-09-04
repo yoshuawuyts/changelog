@@ -18,6 +18,14 @@ impl Tag {
   }
 }
 
+/// A commit range for a tagged release
+#[derive(Clone, Debug)]
+pub struct CommitRange<'r> {
+  latest_tag: Tag,
+  start: git2::Commit<'r>,
+  end: git2::Commit<'r>,
+}
+
 /// A git commit.
 #[derive(Clone, Debug)]
 pub struct Commit {
@@ -60,13 +68,19 @@ impl Commit {
 /// Diff two git objects.
 pub fn diff(
   repo: &Repository,
-  o1: git2::Object,
-  o2: git2::Object,
+  o1: git2::Commit,
+  o2: git2::Commit,
 ) -> ::Result<String> {
-  let t1 = o1.peel_to_tree().context(::ErrorKind::Git)?;
-  let t2 = o2.peel_to_tree().context(::ErrorKind::Git)?;
+  let t1 = o1.tree().context(::ErrorKind::Git)?;
+  let tree2 = o2.tree().context(::ErrorKind::Git)?;
+  // If o2 is the first object then we want to include it in the diff
+  // so we diff o1 with None
+  let t2 = match o2.parent(0) {
+    Err(_err) => None,
+    Ok(_parent) => Some(&tree2),
+  };
   let diff = repo
-    .diff_tree_to_tree(Some(&t2), Some(&t1), None)
+    .diff_tree_to_tree(t2, Some(&t1), None)
     .context(::ErrorKind::Git)?;
   let stats = diff.stats().context(::ErrorKind::Git)?;
   let format = DiffStatsFormat::FULL;
@@ -77,9 +91,7 @@ pub fn diff(
 
 /// Get the latest two commits for the range.
 #[must_use]
-pub fn get_commit_range(
-  repo: &Repository,
-) -> ::Result<(git2::Object, git2::Object)> {
+pub fn get_commit_range<'r>(repo: &'r Repository) -> ::Result<CommitRange<'r>> {
   let tags = repo.tag_names(None).context(::ErrorKind::Git)?;
   let len = tags.len();
 
@@ -90,8 +102,8 @@ pub fn get_commit_range(
   };
 
   // Value has to be `Some()` here.
-  let start = start.expect("Tag should have a value.");
-  let (start, end) = match (start, end) {
+  let start_str = start.expect("Tag should have a value.");
+  let (start, end) = match (start_str, end) {
     (start, None) => {
       let start = repo.revparse_single(start).context(::ErrorKind::Git)?;
       let mut revwalk = repo.revwalk().context(::ErrorKind::Git)?;
@@ -110,13 +122,27 @@ pub fn get_commit_range(
     ),
   };
 
-  Ok((start, end))
+  let cr = CommitRange {
+    start: start
+      .peel_to_commit()
+      .expect("There's no commit at the start point"),
+    end: end
+      .peel_to_commit()
+      .expect("There's no commit at the end point"),
+    latest_tag: Tag {
+      name: Some(start_str.to_owned()),
+    },
+  };
+
+  return Ok(cr);
 }
 
 /// Get the full diff in a single convenience function.
 pub fn full_diff(path: &str) -> ::Result<String> {
   let repo = Repository::open(path).context(::ErrorKind::Git)?;
-  let (start, end) = get_commit_range(&repo)?;
+  let commit_range = get_commit_range(&repo)?;
+  let start = commit_range.start;
+  let end = commit_range.end;
   Ok(diff(&repo, start, end)?)
 }
 
@@ -124,13 +150,15 @@ pub fn full_diff(path: &str) -> ::Result<String> {
 #[must_use]
 pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
   let repo = Repository::open(path).context(::ErrorKind::Git)?;
-  let (start, end) = get_commit_range(&repo)?;
+  let commit_range = get_commit_range(&repo)?;
 
-  let tag = match start.as_tag() {
-    None => unreachable!(),
-    Some(tag) => Tag {
-      name: tag.name().map(|tag| tag.to_owned()),
-    },
+  let tag = commit_range.latest_tag;
+  let start = commit_range.start;
+  let end = commit_range.end;
+
+  let end_is_first_commit = match end.parent(0) {
+    Err(_err) => true,
+    _ => false,
   };
 
   let mut revwalk = repo.revwalk().context(::ErrorKind::Git)?;
@@ -139,8 +167,7 @@ pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
 
   let mut commits = vec![];
   for commit in revwalk {
-    let end = end.as_tag().expect("Object should have been a tag");
-    if end.target_id() == commit.id() {
+    if end.id() == commit.id() && !end_is_first_commit {
       break;
     }
     let message = commit.message().ok_or(::ErrorKind::Git)?.to_string();
