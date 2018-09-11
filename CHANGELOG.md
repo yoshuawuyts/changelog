@@ -1,3 +1,18 @@
+## 2018-09-11, Version 0.3.2
+### Commits
+- [[`e3062036f8`](https://github.com/yoshuawuyts/changelog/commit/e3062036f820b43903cee362ce68e909d96cb1fe)] (cargo-release) version 0.3.2 (Yoshua Wuyts)
+- [[`159ae77f6b`](https://github.com/yoshuawuyts/changelog/commit/159ae77f6bcf596efb700902dd30b98c9b95944e)] Fallback to directory name if Cargo.toml file does not exists. (#12) (Alexander Weiß)
+- [[`d0a22706c9`](https://github.com/yoshuawuyts/changelog/commit/d0a22706c9383d9a10746371d91fd9584fcd18d3)] Update changelog (Yoshua Wuyts)
+
+### Stats
+```diff
+ CHANGELOG.md | 15 +++++++++++++++
+ Cargo.toml   |  2 +-
+ src/lib.rs   | 27 ++++++++++++++++++++++++---
+ 3 files changed, 40 insertions(+), 4 deletions(-)
+```
+
+
 ## 2018-09-04, Version 0.3.1
 ### Commits
 - [[`d604fec20e`](https://github.com/yoshuawuyts/changelog/commit/d604fec20ead83e3ccaca784f630ba2063d1b6a3)] (cargo-release) version 0.3.1 (Yoshua Wuyts)
