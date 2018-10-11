@@ -1,13 +1,61 @@
+dist: trusty
 language: rust
-rust:
-  - nightly
+services: docker
+sudo: required
 
-before_script: |
-  rustup component add rustfmt-preview &&
-  cargo install clippy -f
-script: |
-  cargo fmt -- --check &&
-  cargo clippy -- -D clippy &&
-  cargo build --verbose &&
-  cargo test  --verbose
+env:
+  global:
+    - CRATE_NAME=changelog
+    - RUST_BACKTRACE=1
+
+matrix:
+  include:
+    - os: linux
+      env: TARGET=armv7-unknown-linux-gnueabihf
+      rust: nightly
+    - os: linux
+      env: TARGET=x86_64-unknown-linux-musl
+      rust: nightly
+    - os: linux
+      env: TARGET=x86_64-unknown-freebsd DISABLE_TESTS=1
+      rust: nightly
+    - os: osx
+      env: TARGET=x86_64-apple-darwin
+      rust: nightly
+    - os: windows
+      env: TARGET=x86_64-pc-windows-msvc
+      rust: nightly
+
+before_install:
+  - set -e
+
+install:
+  - sh scripts/install.sh
+  - source ~/.cargo/env || true
+
+script:
+  - bash scripts/script.sh
+
+after_script: set +e
+
+before_deploy:
+  - sh scripts/before_deploy.sh
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  file_glob: true
+  file: $CRATE_NAME-$TRAVIS_TAG-$TARGET.*
+  api_key:
+    secure: "NdkXXqysVaEtKswkxYPnlcam6z8D28bBVb8BW4rSBl/PYALR9o6r0NNDtH16zrzZ1E/fBnW6PO0QQ8FUC8KQ02FCimV7FfmF5VEBxnNkWXZjzlFoNCG0sggQocoagbIGD2FlnzrDYhuePWj6TxXnXMKDoM6CS4P4vvjZfQc8VmEpLL1X9118sXVgRo0yjw2vKmjOuJdmxtrWVr/qOqpS02Vu6fpgd0V5/By+6Q/VfYJbDjCokaX5uXaz7iaYG/pjXwaHRbqOZjfd0RixmZ36OzLT/G3HN6qQkey4NZz9C1YUSZpjLHmzOX1rTtsqMBysotU3+HKm8X6vVLwcyGjfl0j62VUHe2gpV1d+L9pjb5aMkr8M8EgHLH9so1mDg7dFo3VDmgDzFzggKQ+H0MR+1ZiZGXeASqfyOZtfPDMOqDVW5E5OmCJLf42ixQ5QLjmgPaP9AIXOkMgMVcujLe3bNViRksP4FJYUV+8eTN8af7iq/b7rzZJ+vWPhTolAh7qb132xaXkGlrEauvDPbjwu9+bj3MT3RpLvsqmne6QogxkJg+eyW+Mh2UI1aJilKIMM1DOfNd+yL7lRVcx/oRfhr//IhlTPTA81uKGNHjwLfIcnQj2wSvcrjzJRRlSF7mYgKttHTZLW6VEMkLT9AblBn4Gppn5WjrcCMYXVAGKhFSI="
+  on:
+    tags: true
+
 cache: cargo
+before_cache:
+  - chmod -R a+r $HOME/.cargo
+
+notifications:
+  email:
+    on_success: never
+    on_failure: never
