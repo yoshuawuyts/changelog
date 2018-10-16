@@ -12,19 +12,19 @@ matrix:
   include:
     - os: linux
       env: TARGET=armv7-unknown-linux-gnueabihf
-      rust: nightly
+      rust: stable
     - os: linux
       env: TARGET=x86_64-unknown-linux-musl
-      rust: nightly
+      rust: stable
     - os: linux
       env: TARGET=x86_64-unknown-freebsd DISABLE_TESTS=1
-      rust: nightly
+      rust: stable
     - os: osx
       env: TARGET=x86_64-apple-darwin
-      rust: nightly
+      rust: stable
     - os: windows
       env: TARGET=x86_64-pc-windows-msvc
-      rust: nightly
+      rust: stable
 
 before_install:
   - set -e
