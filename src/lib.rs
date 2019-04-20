@@ -23,6 +23,7 @@ pub use git::{all_commits, full_diff, Commit, Tag};
 
 use failure::ResultExt;
 use mktemp::Temp;
+use std::env;
 use std::fs::{self, File, OpenOptions};
 use std::io::{self, Write};
 use std::path::PathBuf;
@@ -59,13 +60,28 @@ pub fn read_repo(dir: &str) -> ::Result<String> {
 
 /// Read the path name from a PathBuf
 pub fn read_path_name(dir: &PathBuf) -> ::Result<String> {
-  Ok(String::from(
-    dir
-      .file_name()
-      .ok_or_else(|| ::ErrorKind::Other)?
-      .to_str()
-      .ok_or_else(|| ::ErrorKind::Other)?,
-  ))
+  // executable was called with the default path
+  let path_name = if dir.eq(&PathBuf::from(".")) {
+    let path = env::current_dir()?;
+
+    String::from(
+      path
+        .file_name()
+        .ok_or_else(|| ::ErrorKind::Other)?
+        .to_str()
+        .ok_or_else(|| ::ErrorKind::Other)?,
+    )
+  } else {
+    String::from(
+      dir
+        .file_name()
+        .ok_or_else(|| ::ErrorKind::Other)?
+        .to_str()
+        .ok_or_else(|| ::ErrorKind::Other)?,
+    )
+  };
+
+  return Ok(path_name);
 }
 
 /// Prepend a changelog to a file.
