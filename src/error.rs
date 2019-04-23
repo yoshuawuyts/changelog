@@ -83,3 +83,10 @@ impl From<Context<ErrorKind>> for Error {
     Error { inner }
   }
 }
+
+impl From<std::io::Error> for Error {
+  fn from(_inner: std::io::Error) -> Error {
+    let inner = Context::new(::ErrorKind::Fs);
+    Error { inner }
+  }
+}
