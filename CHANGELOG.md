@@ -1,3 +1,22 @@
+## 2019-04-23, Version 0.3.3
+### Commits
+- [[`ee64604d26`](https://github.com/yoshuawuyts/changelog/commit/ee64604d26cb62216b7b4c74e3e304e5a2efd26b)] (cargo-release) version 0.3.3 (Yoshua Wuyts)
+- [[`c9e0e117d2`](https://github.com/yoshuawuyts/changelog/commit/c9e0e117d2a473ab55242b0a024c6eefcc08335f)] Fix reading directory name from "." (#30) (Alexander Weiß)
+- [[`83ef62aa1a`](https://github.com/yoshuawuyts/changelog/commit/83ef62aa1aa57ffaadd6db04ff6c94eeef2eebe9)] Update changelog (Yoshua Wuyts)
+
+### Stats
+```diff
+ .gitignore    |  1 +
+ .travis.yml   |  4 +---
+ CHANGELOG.md  | 15 +++++++++++++++
+ Cargo.toml    |  2 +-
+ src/error.rs  |  7 +++++++
+ src/lib.rs    | 30 +++++++++++++++++++++++-------
+ tests/test.rs |  1 +
+ 7 files changed, 49 insertions(+), 11 deletions(-)
+```
+
+
 ## 2018-09-11, Version 0.3.2
 ### Commits
 - [[`e3062036f8`](https://github.com/yoshuawuyts/changelog/commit/e3062036f820b43903cee362ce68e909d96cb1fe)] (cargo-release) version 0.3.2 (Yoshua Wuyts)
