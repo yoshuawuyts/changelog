@@ -4,12 +4,10 @@ use structopt;
 
 /// Command line parser.
 #[derive(Debug, StructOpt)]
-#[structopt(raw(setting = "structopt::clap::AppSettings::ColoredHelp"))]
+#[structopt(setting = structopt::clap::AppSettings::ColoredHelp)]
 pub struct Cli {
   #[structopt(flatten)]
   logger: clap_flags::Log,
-  #[structopt(flatten)]
-  verbosity: clap_flags::Verbosity,
   /// Project directory
   #[structopt(default_value = ".")]
   path: String,
@@ -24,7 +22,7 @@ impl Cli {
   pub fn log(&self, name: &str) -> ::Result<()> {
     self
       .logger
-      .log(self.verbosity.log_level(), name)
+      .start(name)
       .context(::ErrorKind::Log)?;
     Ok(())
   }
