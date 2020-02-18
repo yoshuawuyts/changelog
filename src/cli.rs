@@ -1,6 +1,6 @@
 use clap_flags;
 use failure::ResultExt;
-use structopt;
+use structopt::StructOpt;
 
 /// Command line parser.
 #[derive(Debug, StructOpt)]
@@ -19,7 +19,7 @@ pub struct Cli {
 impl Cli {
   /// Initialize a logger.
   #[inline]
-  pub fn log(&self, name: &str) -> ::Result<()> {
+  pub fn log(&self, name: &str) -> crate::Result<()> {
     self
       .logger
       .start(name)

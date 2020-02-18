@@ -45,6 +45,6 @@ fn truncate(s: &str, max_chars: usize) -> &str {
 }
 
 /// Get the stats section.
-pub fn stats(diff: &str) -> ::Result<String> {
+pub fn stats(diff: &str) -> crate::Result<String> {
   Ok(format!("\n\n### Stats\n```diff\n{}```\n", diff))
 }

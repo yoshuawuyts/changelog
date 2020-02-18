@@ -56,7 +56,7 @@ impl Error {
 }
 
 impl Fail for Error {
-  fn cause(&self) -> Option<&Fail> {
+  fn cause(&self) -> Option<&dyn Fail> {
     self.inner.cause()
   }
 
@@ -86,7 +86,7 @@ impl From<Context<ErrorKind>> for Error {
 
 impl From<std::io::Error> for Error {
   fn from(_inner: std::io::Error) -> Error {
-    let inner = Context::new(::ErrorKind::Fs);
+    let inner = Context::new(crate::ErrorKind::Fs);
     Error { inner }
   }
 }
