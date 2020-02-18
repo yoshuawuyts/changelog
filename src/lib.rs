@@ -71,7 +71,7 @@ pub fn read_path_name(dir: &PathBuf) -> crate::Result<String> {
     )
   };
 
-  return Ok(path_name);
+  Ok(path_name)
 }
 
 /// Prepend a changelog to a file.

@@ -90,7 +90,6 @@ pub fn diff(
 }
 
 /// Get the latest two commits for the range.
-#[must_use]
 pub fn get_commit_range<'r>(
   repo: &'r Repository,
 ) -> crate::Result<CommitRange<'r>> {
@@ -136,7 +135,7 @@ pub fn get_commit_range<'r>(
     },
   };
 
-  return Ok(cr);
+  Ok(cr)
 }
 
 /// Get the full diff in a single convenience function.
@@ -149,7 +148,6 @@ pub fn full_diff(path: &str) -> crate::Result<String> {
 }
 
 /// Get all commits for a path.
-#[must_use]
 pub fn all_commits(path: &str) -> crate::Result<(Tag, Vec<Commit>)> {
   let repo = Repository::open(path).context(crate::ErrorKind::Git)?;
   let commit_range = get_commit_range(&repo)?;
