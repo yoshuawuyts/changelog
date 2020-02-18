@@ -23,7 +23,8 @@ impl Cli {
     self
       .logger
       .start(name)
-      .context(::ErrorKind::Log)?;
+      .map_err(failure::Error::from_boxed_compat)
+      .context(crate::ErrorKind::Log)?;
     Ok(())
   }
 
