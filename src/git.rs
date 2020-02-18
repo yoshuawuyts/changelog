@@ -91,7 +91,9 @@ pub fn diff(
 
 /// Get the latest two commits for the range.
 #[must_use]
-pub fn get_commit_range<'r>(repo: &'r Repository) -> crate::Result<CommitRange<'r>> {
+pub fn get_commit_range<'r>(
+  repo: &'r Repository,
+) -> crate::Result<CommitRange<'r>> {
   let tags = repo.tag_names(None).context(crate::ErrorKind::Git)?;
   let len = tags.len();
 
