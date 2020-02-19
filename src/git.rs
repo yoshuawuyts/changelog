@@ -1,6 +1,7 @@
 use chrono::prelude::*;
 use failure::ResultExt;
 use git2::{self, DiffStatsFormat, Repository};
+use semver::Version;
 use std::str;
 
 /// A git tag.
@@ -89,11 +90,24 @@ pub fn diff(
   Ok(buf.to_owned())
 }
 
+fn sort_tags<'a>(tags: impl Iterator<Item = &'a str>) -> Vec<&'a str> {
+  let mut tags = tags
+    .filter_map(|tag| {
+      Version::parse(tag.trim_start_matches('v'))
+        .ok()
+        .map(|version| (tag, version))
+    })
+    .collect::<Vec<_>>();
+  tags.sort_by(|(_, a), (_, b)| a.cmp(b));
+  tags.into_iter().map(|(tag, _)| tag).collect()
+}
+
 /// Get the latest two commits for the range.
 pub fn get_commit_range<'r>(
   repo: &'r Repository,
 ) -> crate::Result<CommitRange<'r>> {
   let tags = repo.tag_names(None).context(crate::ErrorKind::Git)?;
+  let tags = sort_tags(tags.into_iter().filter_map(|x| x));
   let len = tags.len();
 
   let (start, end) = match len {
@@ -131,7 +145,7 @@ pub fn get_commit_range<'r>(
       .peel_to_commit()
       .expect("There's no commit at the end point"),
     latest_tag: Tag {
-      name: Some(start_str.to_owned()),
+      name: Some((*start_str).to_owned()),
     },
   };
 
@@ -185,4 +199,23 @@ pub fn all_commits(path: &str) -> crate::Result<(Tag, Vec<Commit>)> {
   }
 
   Ok((tag, commits))
+}
+
+#[cfg(test)]
+mod test {
+  use super::sort_tags;
+
+  #[test]
+  fn test_sort_tags() {
+    let tags = vec!["0.0.1", "0.1.0", "0.10.0", "0.9.0"];
+    let expected = vec!["0.0.1", "0.1.0", "0.9.0", "0.10.0"];
+    assert_eq!(sort_tags(tags.into_iter()), expected);
+  }
+
+  #[test]
+  fn test_sort_tags_with_prefix() {
+    let tags = vec!["v0.0.1", "v0.1.0", "v0.10.0", "v0.9.0"];
+    let expected = vec!["v0.0.1", "v0.1.0", "v0.9.0", "v0.10.0"];
+    assert_eq!(sort_tags(tags.into_iter()), expected);
+  }
 }
