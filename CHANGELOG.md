@@ -1,3 +1,25 @@
+## 2020-03-02, Version 0.3.4
+### Commits
+- [[`3a20c6b4b1`](https://github.com/yoshuawuyts/changelog/commit/3a20c6b4b12382a51e9be2311f5c943e4937d3e0)] (cargo-release) version 0.3.4 (Bruno Tavares)
+- [[`1525990510`](https://github.com/yoshuawuyts/changelog/commit/152599051038f87e59e6a06f47cfbee5b209ae0a)] Fix tag order (#60) (Bruno Tavares)
+- [[`59d5c6e417`](https://github.com/yoshuawuyts/changelog/commit/59d5c6e4171edb836921701b0a9493b658587ff2)] Bump dependencies and compile on Windows (#58) (Bruno Tavares)
+- [[`64e8e1c791`](https://github.com/yoshuawuyts/changelog/commit/64e8e1c791646b86bdca507d2f8b8d676a6a083b)] Update changelog (Yoshua Wuyts)
+
+### Stats
+```diff
+ .travis.yml      |  6 ++--
+ CHANGELOG.md     | 19 ++++++++++++-
+ Cargo.toml       | 47 +++++++++++++++---------------
+ src/changelog.rs |  4 +--
+ src/cli.rs       | 13 +++-----
+ src/error.rs     |  4 +--
+ src/git.rs       | 89 +++++++++++++++++++++++++++++++++++++++------------------
+ src/lib.rs       | 66 ++++++++++++++++++------------------------
+ src/main.rs      |  8 +-----
+ 9 files changed, 149 insertions(+), 107 deletions(-)
+```
+
+
 ## 2019-04-23, Version 0.3.3
 ### Commits
 - [[`ee64604d26`](https://github.com/yoshuawuyts/changelog/commit/ee64604d26cb62216b7b4c74e3e304e5a2efd26b)] (cargo-release) version 0.3.3 (Yoshua Wuyts)
