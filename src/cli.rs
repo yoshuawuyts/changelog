@@ -1,15 +1,13 @@
 use clap_flags;
 use failure::ResultExt;
-use structopt;
+use structopt::StructOpt;
 
 /// Command line parser.
 #[derive(Debug, StructOpt)]
-#[structopt(raw(setting = "structopt::clap::AppSettings::ColoredHelp"))]
+#[structopt(setting = structopt::clap::AppSettings::ColoredHelp)]
 pub struct Cli {
   #[structopt(flatten)]
   logger: clap_flags::Log,
-  #[structopt(flatten)]
-  verbosity: clap_flags::Verbosity,
   /// Project directory
   #[structopt(default_value = ".")]
   path: String,
@@ -21,11 +19,12 @@ pub struct Cli {
 impl Cli {
   /// Initialize a logger.
   #[inline]
-  pub fn log(&self, name: &str) -> ::Result<()> {
+  pub fn log(&self, name: &str) -> crate::Result<()> {
     self
       .logger
-      .log(self.verbosity.log_level(), name)
-      .context(::ErrorKind::Log)?;
+      .start(name)
+      .map_err(failure::Error::from_boxed_compat)
+      .context(crate::ErrorKind::Log)?;
     Ok(())
   }
 

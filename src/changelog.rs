@@ -21,7 +21,7 @@ pub fn format(tag: &Tag, commits: &[Commit], repo_url: &str) -> String {
     let url = format!("{}/commit/{}", repo_url, long_hash);
     let hash = format!("[`{}`]({})", short_hash, url);
 
-    let msg: Vec<&str> = commit.message().split("\n").collect();
+    let msg: Vec<&str> = commit.message().split('\n').collect();
     let msg = msg[0];
 
     let author = match commit.author() {
@@ -45,6 +45,6 @@ fn truncate(s: &str, max_chars: usize) -> &str {
 }
 
 /// Get the stats section.
-pub fn stats(diff: &str) -> ::Result<String> {
+pub fn stats(diff: &str) -> crate::Result<String> {
   Ok(format!("\n\n### Stats\n```diff\n{}```\n", diff))
 }

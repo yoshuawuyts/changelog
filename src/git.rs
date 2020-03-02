@@ -70,9 +70,9 @@ pub fn diff(
   repo: &Repository,
   o1: git2::Commit,
   o2: git2::Commit,
-) -> ::Result<String> {
-  let t1 = o1.tree().context(::ErrorKind::Git)?;
-  let tree2 = o2.tree().context(::ErrorKind::Git)?;
+) -> crate::Result<String> {
+  let t1 = o1.tree().context(crate::ErrorKind::Git)?;
+  let tree2 = o2.tree().context(crate::ErrorKind::Git)?;
   // If o2 is the first object then we want to include it in the diff
   // so we diff o1 with None
   let t2 = match o2.parent(0) {
@@ -81,22 +81,23 @@ pub fn diff(
   };
   let diff = repo
     .diff_tree_to_tree(t2, Some(&t1), None)
-    .context(::ErrorKind::Git)?;
-  let stats = diff.stats().context(::ErrorKind::Git)?;
+    .context(crate::ErrorKind::Git)?;
+  let stats = diff.stats().context(crate::ErrorKind::Git)?;
   let format = DiffStatsFormat::FULL;
-  let buf = stats.to_buf(format, 80).context(::ErrorKind::Git)?;
-  let buf = str::from_utf8(&*buf).context(::ErrorKind::Other)?;
+  let buf = stats.to_buf(format, 80).context(crate::ErrorKind::Git)?;
+  let buf = str::from_utf8(&*buf).context(crate::ErrorKind::Other)?;
   Ok(buf.to_owned())
 }
 
 /// Get the latest two commits for the range.
-#[must_use]
-pub fn get_commit_range<'r>(repo: &'r Repository) -> ::Result<CommitRange<'r>> {
-  let tags = repo.tag_names(None).context(::ErrorKind::Git)?;
+pub fn get_commit_range<'r>(
+  repo: &'r Repository,
+) -> crate::Result<CommitRange<'r>> {
+  let tags = repo.tag_names(None).context(crate::ErrorKind::Git)?;
   let len = tags.len();
 
   let (start, end) = match len {
-    0 => return Err(::ErrorKind::NoTags.into()),
+    0 => return Err(crate::ErrorKind::NoTags.into()),
     1 => (tags.get(len - 1), None),
     _ => (tags.get(len - 1), tags.get(len - 2)),
   };
@@ -105,20 +106,20 @@ pub fn get_commit_range<'r>(repo: &'r Repository) -> ::Result<CommitRange<'r>> {
   let start_str = start.expect("Tag should have a value.");
   let (start, end) = match (start_str, end) {
     (start, None) => {
-      let start = repo.revparse_single(start).context(::ErrorKind::Git)?;
-      let mut revwalk = repo.revwalk().context(::ErrorKind::Git)?;
-      revwalk.push(start.id()).context(::ErrorKind::Git)?;
+      let start = repo.revparse_single(start).context(crate::ErrorKind::Git)?;
+      let mut revwalk = repo.revwalk().context(crate::ErrorKind::Git)?;
+      revwalk.push(start.id()).context(crate::ErrorKind::Git)?;
       revwalk.set_sorting(git2::Sort::REVERSE);
       let oid = revwalk
         .nth(0)
-        .ok_or(::ErrorKind::Git)?
-        .context(::ErrorKind::Git)?;
+        .ok_or(crate::ErrorKind::Git)?
+        .context(crate::ErrorKind::Git)?;
       let last = repo.find_object(oid, None).unwrap();
       (start, last)
     }
     (start, Some(end)) => (
-      repo.revparse_single(start).context(::ErrorKind::Git)?,
-      repo.revparse_single(end).context(::ErrorKind::Git)?,
+      repo.revparse_single(start).context(crate::ErrorKind::Git)?,
+      repo.revparse_single(end).context(crate::ErrorKind::Git)?,
     ),
   };
 
@@ -134,12 +135,12 @@ pub fn get_commit_range<'r>(repo: &'r Repository) -> ::Result<CommitRange<'r>> {
     },
   };
 
-  return Ok(cr);
+  Ok(cr)
 }
 
 /// Get the full diff in a single convenience function.
-pub fn full_diff(path: &str) -> ::Result<String> {
-  let repo = Repository::open(path).context(::ErrorKind::Git)?;
+pub fn full_diff(path: &str) -> crate::Result<String> {
+  let repo = Repository::open(path).context(crate::ErrorKind::Git)?;
   let commit_range = get_commit_range(&repo)?;
   let start = commit_range.start;
   let end = commit_range.end;
@@ -147,9 +148,8 @@ pub fn full_diff(path: &str) -> ::Result<String> {
 }
 
 /// Get all commits for a path.
-#[must_use]
-pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
-  let repo = Repository::open(path).context(::ErrorKind::Git)?;
+pub fn all_commits(path: &str) -> crate::Result<(Tag, Vec<Commit>)> {
+  let repo = Repository::open(path).context(crate::ErrorKind::Git)?;
   let commit_range = get_commit_range(&repo)?;
 
   let tag = commit_range.latest_tag;
@@ -161,8 +161,8 @@ pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
     _ => false,
   };
 
-  let mut revwalk = repo.revwalk().context(::ErrorKind::Git)?;
-  revwalk.push(start.id()).context(::ErrorKind::Git)?;
+  let mut revwalk = repo.revwalk().context(crate::ErrorKind::Git)?;
+  revwalk.push(start.id()).context(crate::ErrorKind::Git)?;
   let revwalk = revwalk.filter_map(|id| repo.find_commit(id.ok()?).ok());
 
   let mut commits = vec![];
@@ -170,7 +170,7 @@ pub fn all_commits(path: &str) -> ::Result<(Tag, Vec<Commit>)> {
     if end.id() == commit.id() && !end_is_first_commit {
       break;
     }
-    let message = commit.message().ok_or(::ErrorKind::Git)?.to_string();
+    let message = commit.message().ok_or(crate::ErrorKind::Git)?.to_string();
     let hash = format!("{}", commit.id());
     let author = commit.author().name().map(|name| name.to_owned());
     let timestamp = commit.time().seconds();
