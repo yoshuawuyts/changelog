@@ -1,0 +1,17 @@
+version: 2
+updates:
+- package-ecosystem: cargo
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+    timezone: Europe/Berlin
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: comrak
+    versions:
+    - 0.9.0
+    - 0.9.1
+  - dependency-name: git2
+    versions:
+    - 0.13.17
